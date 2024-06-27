@@ -1,17 +1,21 @@
 import React from "react";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import MainContent from "./components/MainContent";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ChatProvider } from "./context/ChatContext";
+import ChatInterface from "./components/ChatInterface";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
-    <div className="flex flex-col lg:flex-row h-screen">
-      <Sidebar />
-      <div className="flex flex-col flex-1">
-        <Header />
-        <MainContent />
-      </div>
-    </div>
+    <ChatProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<ChatInterface />} />
+        </Routes>
+      </Router>
+    </ChatProvider>
   );
 }
 

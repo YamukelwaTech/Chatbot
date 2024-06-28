@@ -47,7 +47,7 @@ const MainContent = () => {
     <main className="flex flex-col items-center justify-between h-screen p-6">
       <div className="flex-1 flex flex-col items-center w-full">
         {!hasSentMessage && (
-          <div className="w-full lg:w-[80%] text-left mb-2 pl-9">
+          <div className="w-full lg:w-[80%] text-left mb-2 pl-4">
             <h3 className="text-lg font-semibold">Get answers in seconds</h3>
             <p className="text-gray-500">
               Create and complete tasks using boards

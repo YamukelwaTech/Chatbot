@@ -83,7 +83,7 @@ const MainContent = () => {
                 {messages.map((msg, index) => (
                   <div
                     key={index}
-                    className={`p-4 rounded-lg ${
+                    className={`p-1 rounded-lg ${
                       msg.sender === "user"
                         ? "bg-blue-100 self-end"
                         : "bg-gray-100"

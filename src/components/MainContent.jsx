@@ -47,7 +47,7 @@ const MainContent = () => {
     <main className="flex flex-col items-center justify-between h-screen p-6">
       <div className="flex-1 flex flex-col items-center w-full">
         {!hasSentMessage && (
-          <div className="w-full text-left mb-2 bg-orange-700 pl-9">
+          <div className="w-full lg:w-[80%] text-left mb-2 pl-9">
             <h3 className="text-lg font-semibold">Get answers in seconds</h3>
             <p className="text-gray-500">
               Create and complete tasks using boards
@@ -56,7 +56,7 @@ const MainContent = () => {
         )}
         <div className="flex flex-col justify-between items-center w-full flex-grow">
           {!hasSentMessage ? (
-            <div className="h-[35vh] w-[90vw] lg:w-[60vw] bg-yellow-500 p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
+            <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
               <div className="self-start">
                 <h4 className="font-medium">Search History</h4>
               </div>
@@ -68,7 +68,7 @@ const MainContent = () => {
                 />
               </div>
               <div className="text-center">
-                <p className="text-gray-500">No Questions added</p>
+                <p className="text-gray-500 font-semibold">No Questions added</p>
                 <p className="text-gray-500">
                   Type your questions below to get fast answers
                 </p>

@@ -1,15 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.user);
+
   return (
-    <header className="flex justify-end items-center p-4 bg-white border-b border-gray-200">
-      <div className="flex items-center space-x-2">
-        <span className="text-gray-700">Johnson Doe</span>
-        <img
-          src="https://via.placeholder.com/40"
-          alt="User avatar"
-          className="w-10 h-10 rounded-full"
-        />
+    <header className="bg-white shadow-md p-4 flex justify-between items-center">
+      <div className="flex-1"></div>
+      <div className="flex items-center">
+        <span className="text-gray-600">Hello, {user.username}</span>
       </div>
     </header>
   );

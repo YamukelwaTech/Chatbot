@@ -28,37 +28,37 @@ const Sidebar = () => {
           Superpage
         </h1>
         <ul>
-          <li className="flex items-center p-4 text-gray-600 hover:bg-gray-200 cursor-pointer">
+          <li className="flex items-center p-2 rounded-lg text-gray-600 bg-gray-200 mb-2">
             <FiSearch className="mr-4" />
             <span className={`${isOpen ? "block" : "hidden"} lg:block`}>
               AI Chat
             </span>
           </li>
-          <li className="flex items-center p-4 text-gray-600 hover:bg-gray-200 cursor-pointer">
+          <li className="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-200 cursor-pointer mb-2">
             <FiUsers className="mr-4" />
             <span className={`${isOpen ? "block" : "hidden"} lg:block`}>
               Members
             </span>
           </li>
-          <li className="flex items-center p-4 text-gray-600 hover:bg-gray-200 cursor-pointer">
+          <li className="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-200 cursor-pointer mb-2">
             <FiSettings className="mr-4" />
             <span className={`${isOpen ? "block" : "hidden"} lg:block`}>
               Integrations
             </span>
           </li>
-          <li className="flex items-center p-4 text-gray-600 hover:bg-gray-200 cursor-pointer">
+          <li className="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-200 cursor-pointer mb-2">
             <FiUserPlus className="mr-4" />
             <span className={`${isOpen ? "block" : "hidden"} lg:block`}>
               Refer Friends
             </span>
           </li>
-          <li className="flex items-center p-4 text-gray-600 hover:bg-gray-200 cursor-pointer">
+          <li className="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-200 cursor-pointer mb-2">
             <FiDollarSign className="mr-4" />
             <span className={`${isOpen ? "block" : "hidden"} lg:block`}>
               Pricing Plans
             </span>
           </li>
-          <li className="flex items-center p-4 text-gray-600 hover:bg-gray-200 cursor-pointer">
+          <li className="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-200 cursor-pointer mb-2">
             <FiSettings className="mr-4" />
             <span className={`${isOpen ? "block" : "hidden"} lg:block`}>
               Settings

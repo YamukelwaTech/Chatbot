@@ -5,7 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
@@ -13,27 +13,31 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = true; // Hard-coded for testing
 
   return (
     <Router>
-      <div className="flex flex-col lg:flex-row h-screen">
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         {isAuthenticated ? (
-          <>
-            <Sidebar />
-            <div className="flex flex-col flex-1">
-              <Header />
-              <MainContent />
-            </div>
-          </>
+          <Route
+            path="/"
+            element={
+              <div className="flex flex-col lg:flex-row h-screen">
+                <Sidebar />
+                <div className="flex flex-col flex-1">
+                  <Header />
+                  <MainContent />
+                </div>
+              </div>
+            }
+          />
         ) : (
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-          </Routes>
+          <Route path="*" element={<Navigate to="/signup" />} />
         )}
-      </div>
+      </Routes>
     </Router>
   );
 }

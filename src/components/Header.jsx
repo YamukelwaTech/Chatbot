@@ -13,7 +13,6 @@ const Header = () => {
   const [userImage, setUserImage] = useState("");
 
   useEffect(() => {
-    // Randomly select an image from the dummyImages array
     const randomImage =
       dummyImages[Math.floor(Math.random() * dummyImages.length)];
     setUserImage(randomImage);
@@ -21,11 +20,27 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center">
-      <div className="flex-1"></div>{" "}
-      {/* This empty div will push the user info to the right */}
+      <div className="flex-1"></div>
       <div className="flex items-center">
-        <span className="text-gray-600 mr-2">Hello, {user.username}</span>
-        <img src={userImage} alt="User" className="w-10 h-10 rounded-full" />
+        {user ? (
+          <>
+            <span className="text-gray-600 mr-2">Hello, {user.username}</span>
+            <img
+              src={userImage}
+              alt="User"
+              className="w-10 h-10 rounded-full"
+            />
+          </>
+        ) : (
+          <>
+            <span className="text-gray-600 mr-2">JamesBlank</span>
+            <img
+              src={userImage}
+              alt="User"
+              className="w-10 h-10 rounded-full"
+            />
+          </>
+        )}
       </div>
     </header>
   );

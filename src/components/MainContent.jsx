@@ -44,7 +44,7 @@ const MainContent = () => {
   }, [messages]);
 
   return (
-    <main className="flex flex-col items-center justify-between h-screen bg-red-500 p-6">
+    <main className="flex flex-col items-center justify-between h-screen p-6">
       <div className="flex-1 flex flex-col items-center w-full">
         {!hasSentMessage && (
           <div className="w-full text-left mb-2 bg-orange-700 pl-9">
@@ -56,12 +56,23 @@ const MainContent = () => {
         )}
         <div className="flex flex-col justify-between items-center w-full flex-grow">
           {!hasSentMessage ? (
-            <div className="h-[35vh] w-[90vw] lg:w-[60vw] bg-yellow-500 p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-center items-center">
-              <h4 className="font-medium">Search History</h4>
-              <p className="text-gray-500">No Questions added</p>
-              <p className="text-gray-500">
-                Type your questions below to get fast answers
-              </p>
+            <div className="h-[35vh] w-[90vw] lg:w-[60vw] bg-yellow-500 p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
+              <div className="self-start">
+                <h4 className="font-medium">Search History</h4>
+              </div>
+              <div className="flex-grow flex items-center justify-center">
+                <img
+                  src="path/to/your/image.jpg"
+                  alt="Your"
+                  className="max-h-full max-w-full"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-gray-500">No Questions added</p>
+                <p className="text-gray-500">
+                  Type your questions below to get fast answers
+                </p>
+              </div>
             </div>
           ) : (
             <div className="overflow-auto p-4 h-[70vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] bg-white rounded-lg shadow-md">

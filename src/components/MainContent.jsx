@@ -27,6 +27,12 @@ const MainContent = () => {
     setInput("");
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -38,7 +44,7 @@ const MainContent = () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-red-500 p-6">
       <div className="flex-1 flex flex-col justify-between items-center w-full">
-        <div className="overflow-auto p-4 h-[80vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] bg-white rounded-lg shadow-md">
+        <div className="overflow-auto p-4 h-[70vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] bg-white rounded-lg shadow-md">
           {messages.length === 0 ? (
             <div className="p-6 text-center">
               <h3 className="text-lg font-semibold">Get answers in seconds</h3>
@@ -72,17 +78,18 @@ const MainContent = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center mt-4 w-[90vw] lg:w-[60vw]">
+        <div className="relative mt-4 w-[90vw] lg:w-[60vw]">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyPress={handleKeyPress}
             placeholder="Type your message..."
-            className="flex-1 p-3 border border-gray-300 rounded-l-lg"
+            className="flex-1 p-3 border border-gray-300 rounded-lg w-full pr-12"
           />
           <button
             onClick={handleSend}
-            className="p-3 bg-purple-600 text-white rounded-r-lg"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-purple-600 text-white rounded-full"
           >
             <FiSend />
           </button>

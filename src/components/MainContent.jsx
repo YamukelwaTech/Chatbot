@@ -7,6 +7,7 @@ import { FiSend } from "react-icons/fi";
 const MainContent = () => {
   const [input, setInput] = useState("");
   const [hasSentMessage, setHasSentMessage] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
   const messages = useSelector((state) => state.chat.messages);
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
@@ -42,6 +43,13 @@ const MainContent = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowButtons(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <main className="flex flex-col items-center justify-between h-screen p-6">
@@ -97,21 +105,42 @@ const MainContent = () => {
             </div>
           )}
         </div>
-        <div className="relative mt-4 w-[80vw] lg:w-[60vw]">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Write Coding about new HTML Tags"
-            className="flex-1 p-3 border border-purple-400 rounded-lg w-full pr-12"
-          />
-          <button
-            onClick={handleSend}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2"
-          >
-            <FiSend />
-          </button>
+        <div className="relative mt-4 w-[80vw] lg:w-[60vw] flex flex-col space-y-2">
+          {showButtons && (
+            <div className="flex space-x-6">
+              <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                Write Js code for it
+              </button>
+              <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                Explain more
+              </button>
+              <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                Explain more
+              </button>
+              <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                Explain more
+              </button>
+              <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                Explain more
+              </button>
+            </div>
+          )}
+          <div className="relative">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Write Coding about new HTML Tags"
+              className="flex-1 p-3 border border-purple-400 rounded-lg w-full pr-12"
+            />
+            <button
+              onClick={handleSend}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2"
+            >
+              <FiSend />
+            </button>
+          </div>
         </div>
       </div>
       <footer className="text-center text-gray-500 mt-4 font-medium text-sm">

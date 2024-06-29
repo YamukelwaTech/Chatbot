@@ -5,7 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MainContent from "./components/MainContent";
@@ -13,8 +13,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 
 function App() {
-  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const isAuthenticated = true; // Hard-coded for testing
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const isAuthenticated = true;
 
   return (
     <Router>

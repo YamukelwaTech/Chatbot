@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../slices/chatSlice";
 import { getAIResponse } from "../services/openai";
 import { FiSend } from "react-icons/fi";
+import { AiOutlineClose } from "react-icons/ai";
 
 const MainContent = () => {
   const [input, setInput] = useState("");
@@ -107,22 +108,27 @@ const MainContent = () => {
         </div>
         <div className="relative mt-4 w-[80vw] lg:w-[60vw] flex flex-col space-y-2">
           {showButtons && (
-            <div className="flex space-x-6">
-              <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                Write Js code for it
-              </button>
-              <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                Explain more
-              </button>
-              <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                Explain more
-              </button>
-              <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                Explain more
-              </button>
-              <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                Explain more
-              </button>
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-500 font-medium">Chat Suggestions</span>
+              </div>
+              <div className="flex space-x-2 items-center">
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                  Write Js code for it
+                </button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                  Explain more
+                </button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                  Explain more
+                </button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                  Explain more
+                </button>
+                <button onClick={() => setShowButtons(false)} className="p-1 rounded-full border border-gray-400">
+                  <AiOutlineClose />
+                </button>
+              </div>
             </div>
           )}
           <div className="relative">

@@ -3,6 +3,11 @@ import axios from "axios";
 export const getAIResponse = async (prompt) => {
   try {
     const token = localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("No token found in local storage");
+    }
+
     const response = await axios.post(
       "http://localhost:5000/api/chat",
       { prompt },
@@ -16,6 +21,7 @@ export const getAIResponse = async (prompt) => {
 
     return response.data.response;
   } catch (error) {
+    console.error("Error fetching AI response:", error);
     throw error;
   }
 };

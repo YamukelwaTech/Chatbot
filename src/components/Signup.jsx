@@ -4,7 +4,11 @@ import { useDispatch } from "react-redux";
 import { signup } from "../slices/authSlice";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    username: "",
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +31,24 @@ const Signup = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <label htmlFor="username" className="block text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={formData.username}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+              autoComplete="username "
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -40,7 +61,9 @@ const Signup = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               name="password"

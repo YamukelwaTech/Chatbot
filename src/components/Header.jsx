@@ -24,7 +24,7 @@ const Header = () => {
       <div className="flex items-center">
         {user ? (
           <>
-            <span className="text-gray-600 mr-2">Hello, {user.username}</span>
+            <span className="text-gray-600 mr-2">{user.username}</span>
             <img
               src={userImage}
               alt="User"

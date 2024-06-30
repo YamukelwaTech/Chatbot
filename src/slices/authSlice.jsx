@@ -9,11 +9,20 @@ const initialState = {
   error: null,
 };
 
+const setTokenInLocalStorage = (token) => {
+  localStorage.setItem("token", token);
+};
+
+const clearTokenFromLocalStorage = () => {
+  localStorage.removeItem("token");
+};
+
 export const signup = createAsyncThunk(
   "auth/signup",
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post("/api/signup", formData);
+      setTokenInLocalStorage(response.data.token);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -26,6 +35,7 @@ export const loginAsync = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post("/api/login", formData);
+      setTokenInLocalStorage(response.data.token);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -40,10 +50,12 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      setTokenInLocalStorage(action.payload.token);
     },
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      clearTokenFromLocalStorage();
     },
   },
   extraReducers: (builder) => {
@@ -52,21 +64,25 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload;
         state.error = null;
+        setTokenInLocalStorage(action.payload.token);
       })
       .addCase(signup.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
         state.error = action.payload;
+        clearTokenFromLocalStorage();
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload;
         state.error = null;
+        setTokenInLocalStorage(action.payload.token);
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
         state.error = action.payload;
+        clearTokenFromLocalStorage();
       });
   },
 });

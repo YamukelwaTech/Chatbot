@@ -1,19 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../slices/chatSlice";
 import { getAIResponse } from "../services/openai";
 import { FiSend } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
-
-// Mock user chat history data
-const userChatHistory = [
-  { question: "How to design SaaS web application UI...", time: "2 mins ago", questionsAsked: 24 },
-  { question: "Designing SaaS UI as a developer", time: "2 mins ago", questionsAsked: 24 },
-  { question: "Figma design tips and tricks", time: "2 mins ago", questionsAsked: 24 },
-  { question: "List out SaaS UX testing methods and tools", time: "2 mins ago", questionsAsked: 24 },
-  { question: "Write coding for landing page with HTML", time: "2 mins ago", questionsAsked: 24 },
-  { question: "How to use Superpage UI kit", time: "2 mins ago", questionsAsked: 24 },
-];
 
 const MainContent = () => {
   const [input, setInput] = useState("");
@@ -21,6 +11,7 @@ const MainContent = () => {
   const [showButtons, setShowButtons] = useState(false);
   const [hasChatHistory, setHasChatHistory] = useState(false);
   const messages = useSelector((state) => state.chat.messages);
+  const chatHistory = useSelector((state) => state.auth.chatHistory);
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
 
@@ -56,6 +47,11 @@ const MainContent = () => {
     scrollToBottom();
   }, [messages]);
 
+  const checkUserChatHistory = useCallback(() => {
+    const userHasHistory = chatHistory && chatHistory.length > 0;
+    setHasChatHistory(userHasHistory);
+  }, [chatHistory]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButtons(true);
@@ -64,12 +60,23 @@ const MainContent = () => {
       checkUserChatHistory();
     }, 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [checkUserChatHistory]);
 
-  const checkUserChatHistory = () => {
-    // Simulate an API call to check for chat history
-    const userHasHistory = true; // Change this based on real logic
-    setHasChatHistory(userHasHistory);
+  const clearChatHistory = () => {
+    console.log("Chat history cleared!");
+  };
+
+  const formatTime = (time) => {
+    // Assume time is in a valid format and format it to desired style
+    return time;
+  };
+
+  const truncatePrompt = (prompt) => {
+    const words = prompt.split(" ");
+    if (words.length > 7) {
+      return words.slice(0, 7).join(" ") + "...";
+    }
+    return prompt;
   };
 
   const ChatHistoryItem = ({ item }) => (
@@ -80,8 +87,8 @@ const MainContent = () => {
         className="w-10 h-10 rounded-full"
       />
       <div className="flex flex-col">
-        <span className="text-sm font-medium">{item.question}</span>
-        <span className="text-xs text-gray-500">{item.time}</span>
+        <span className="text-sm font-medium">{truncatePrompt(item.prompt)}</span>
+        <span className="text-xs text-gray-500">{formatTime(item.time)}</span>
       </div>
       <div className="ml-auto text-xs text-gray-500">{item.questionsAsked} Questions asked</div>
     </div>
@@ -98,15 +105,21 @@ const MainContent = () => {
             </p>
           </div>
         )}
-        <div className="flex flex-col justify-between items-center w-full flex-grow ">
+        <div className="flex flex-col justify-between items-center w-full flex-grow">
           {!hasSentMessage ? (
             hasChatHistory ? (
-              <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
-                <div className="self-start w-full">
+              <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center relative">
+                <div className="self-start w-full flex justify-between items-center">
                   <h4 className="font-medium">Search History</h4>
+                  <button
+                    onClick={clearChatHistory}
+                    className="text-xs bg-gray-200 rounded px-2 py-1"
+                  >
+                    Clear Chat History
+                  </button>
                 </div>
                 <div className="mt-4 w-full h-full overflow-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {userChatHistory.map((item, index) => (
+                  {chatHistory.map((item, index) => (
                     <ChatHistoryItem key={index} item={item} />
                   ))}
                 </div>
@@ -135,7 +148,7 @@ const MainContent = () => {
             )
           ) : (
             <div className="overflow-auto p-4 h-[70vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] rounded-lg shadow-md custom-scrollbar">
-              <div className="mt-4 flex flex-col space-y-4 overflow-y-auto max-h-full ">
+              <div className="mt-4 flex flex-col space-y-4 overflow-y-auto max-h-full">
                 <h3 className="text-lg font-semibold">Chat</h3>
                 {messages.map((msg, index) => (
                   <div

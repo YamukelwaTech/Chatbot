@@ -5,6 +5,8 @@ axios.defaults.baseURL = "http://localhost:5000";
 
 const initialState = {
   user: null,
+  username: null,
+  chatHistory: [],
   isAuthenticated: false,
   error: null,
 };
@@ -48,12 +50,16 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.username = action.payload.username;
+      state.chatHistory = action.payload.chatHistory;
       state.isAuthenticated = true;
       setTokenInLocalStorage(action.payload.token);
     },
     logout: (state) => {
       state.user = null;
+      state.username = null;
+      state.chatHistory = [];
       state.isAuthenticated = false;
       clearTokenFromLocalStorage();
     },
@@ -62,25 +68,33 @@ const authSlice = createSlice({
     builder
       .addCase(signup.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
+        state.username = action.payload.username;
+        state.chatHistory = [];
         state.error = null;
         setTokenInLocalStorage(action.payload.token);
       })
       .addCase(signup.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
+        state.username = null;
+        state.chatHistory = [];
         state.error = action.payload;
         clearTokenFromLocalStorage();
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
+        state.username = action.payload.username;
+        state.chatHistory = action.payload.chatHistory;
         state.error = null;
         setTokenInLocalStorage(action.payload.token);
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
+        state.username = null;
+        state.chatHistory = [];
         state.error = action.payload;
         clearTokenFromLocalStorage();
       });

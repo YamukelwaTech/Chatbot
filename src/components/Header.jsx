@@ -9,9 +9,9 @@ const dummyImages = [
 ];
 
 const Header = () => {
-  const user = useSelector((state) => state.auth.user);
-  const [userImage, setUserImage] = useState("");
+  const user = useSelector((state) => state.auth.username);
 
+  const [userImage, setUserImage] = useState("");
   useEffect(() => {
     const randomImage =
       dummyImages[Math.floor(Math.random() * dummyImages.length)];
@@ -24,7 +24,8 @@ const Header = () => {
       <div className="flex items-center">
         {user ? (
           <>
-            <span className="text-gray-600 mr-2">{user.username}</span>
+            <span className="text-gray-600 mr-2">{user}</span>
+
             <img
               src={userImage}
               alt="User"

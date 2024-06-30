@@ -38,6 +38,7 @@ export const loginAsync = createAsyncThunk(
     try {
       const response = await axios.post("/api/login", formData);
       setTokenInLocalStorage(response.data.token);
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

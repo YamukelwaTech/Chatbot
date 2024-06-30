@@ -14,7 +14,7 @@ import Signup from "./components/Signup";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  // const isAuthenticated = true;
+
 
   return (
     <Router>

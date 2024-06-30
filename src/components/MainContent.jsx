@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage } from "../slices/chatSlice";
+import { addMessage, deleteChatAsync } from "../slices/chatSlice";
 import { getAIResponse } from "../services/openai";
 import { FiSend } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -10,6 +10,7 @@ const MainContent = () => {
   const [hasSentMessage, setHasSentMessage] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [hasChatHistory, setHasChatHistory] = useState(false);
+  const [highlightedChatId, setHighlightedChatId] = useState(null);
   const messages = useSelector((state) => state.chat.messages);
   const chatHistory = useSelector((state) => state.auth.chatHistory);
   const dispatch = useDispatch();
@@ -55,20 +56,32 @@ const MainContent = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButtons(true);
-
-      // Simulate a check for chat history
       checkUserChatHistory();
     }, 5000);
     return () => clearTimeout(timer);
   }, [checkUserChatHistory]);
 
   const clearChatHistory = () => {
-    console.log("Chat history cleared!");
+    if (chatHistory.length > 0) {
+      const chatId = highlightedChatId || chatHistory[0].id; 
+      dispatch(deleteChatAsync(chatId));
+    }
+  };
+
+  const handleHighlight = (id) => {
+    console.log("Highlighted item ID:", id);
+    setHighlightedChatId(id);
   };
 
   const formatTime = (time) => {
-    // Assume time is in a valid format and format it to desired style
-    return time;
+    const now = new Date();
+    const date = new Date(time);
+    const differenceInTime = now.getTime() - date.getTime();
+    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+
+    if (differenceInDays === 0) return "today";
+    if (differenceInDays === 1) return "yesterday";
+    return "a week ago";
   };
 
   const truncatePrompt = (prompt) => {
@@ -80,17 +93,26 @@ const MainContent = () => {
   };
 
   const ChatHistoryItem = ({ item }) => (
-    <div className="flex items-center space-x-4 p-2 border-b border-gray-200">
+    <div
+      className={`flex items-center space-x-4 p-2 border-b border-gray-200 ${
+        highlightedChatId === item.id ? "bg-purple-200" : ""
+      }`}
+      onClick={() => handleHighlight(item.id)}
+    >
       <img
         src="path/to/user/image.jpg"
         alt="User"
         className="w-10 h-10 rounded-full"
       />
       <div className="flex flex-col">
-        <span className="text-sm font-medium">{truncatePrompt(item.prompt)}</span>
-        <span className="text-xs text-gray-500">{formatTime(item.time)}</span>
+        <span className="text-sm font-medium">
+          {truncatePrompt(item.prompt)}
+        </span>
+        <span className="text-xs text-black">{formatTime(item.created_at)}</span>
       </div>
-      <div className="ml-auto text-xs text-gray-500">{item.questionsAsked} Questions asked</div>
+      <div className="ml-auto text-xs text-gray-500">
+        24 Questions asked
+      </div>
     </div>
   );
 

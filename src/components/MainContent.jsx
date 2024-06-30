@@ -58,12 +58,14 @@ const MainContent = () => {
         {!hasSentMessage && (
           <div className="w-full lg:w-[80%] text-left mb-2 pl-4">
             <h3 className="text-lg font-semibold">Get answers in seconds</h3>
-            <p className="text-gray-500">Create and complete tasks using boards</p>
+            <p className="text-gray-500">
+              Create and complete tasks using boards
+            </p>
           </div>
         )}
-        <div className="flex flex-col justify-between items-center w-full flex-grow">
+        <div className="flex flex-col justify-between items-center w-full flex-grow ">
           {!hasSentMessage ? (
-            <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
+            <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center ">
               <div className="self-start">
                 <h4 className="font-medium">Search History</h4>
               </div>
@@ -75,19 +77,25 @@ const MainContent = () => {
                 />
               </div>
               <div className="text-center">
-                <p className="text-gray-500 font-semibold">No Questions added</p>
-                <p className="text-gray-500">Type your questions below to get fast answers</p>
+                <p className="text-gray-500 font-semibold">
+                  No Questions added
+                </p>
+                <p className="text-gray-500">
+                  Type your questions below to get fast answers
+                </p>
               </div>
             </div>
           ) : (
-            <div className="overflow-auto p-4 h-[70vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] bg-white rounded-lg shadow-md">
-              <div className="mt-4 flex flex-col space-y-4 overflow-y-auto max-h-full">
+            <div className="overflow-auto p-4 h-[70vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] rounded-lg shadow-md custom-scrollbar">
+              <div className="mt-4 flex flex-col space-y-4 overflow-y-auto max-h-full ">
                 <h3 className="text-lg font-semibold">Chat</h3>
                 {messages.map((msg, index) => (
                   <div
                     key={index}
                     className={`p-1 rounded-lg ${
-                      msg.sender === "user" ? "bg-blue-100 self-end" : "bg-gray-100"
+                      msg.sender === "user"
+                        ? "bg-blue-100 self-end"
+                        : "bg-gray-100"
                     }`}
                   >
                     {msg.text}
@@ -102,13 +110,23 @@ const MainContent = () => {
           {showButtons && (
             <div className="flex flex-col space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-gray-500 font-medium">Chat Suggestions</span>
+                <span className="text-gray-500 font-medium">
+                  Chat Suggestions
+                </span>
               </div>
               <div className="flex flex-wrap space-x-2 items-center relative">
-                <button className="text-xs bg-gray-200 rounded px-2 py-1">Write Js code for it</button>
-                <button className="text-xs bg-gray-200 rounded px-2 py-1">Explain more</button>
-                <button className="text-xs bg-gray-200 rounded px-2 py-1 hidden md:inline">Explain more</button>
-                <button className="text-xs bg-gray-200 rounded px-2 py-1 hidden md:inline">Explain more</button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                  Write Js code for it
+                </button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">
+                  Explain more
+                </button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1 hidden md:inline">
+                  Explain more
+                </button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1 hidden md:inline">
+                  Explain more
+                </button>
                 <button
                   onClick={() => setShowButtons(false)}
                   className="p-1 rounded-full border border-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2"

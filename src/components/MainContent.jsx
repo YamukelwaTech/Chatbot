@@ -58,9 +58,7 @@ const MainContent = () => {
         {!hasSentMessage && (
           <div className="w-full lg:w-[80%] text-left mb-2 pl-4">
             <h3 className="text-lg font-semibold">Get answers in seconds</h3>
-            <p className="text-gray-500">
-              Create and complete tasks using boards
-            </p>
+            <p className="text-gray-500">Create and complete tasks using boards</p>
           </div>
         )}
         <div className="flex flex-col justify-between items-center w-full flex-grow">
@@ -77,12 +75,8 @@ const MainContent = () => {
                 />
               </div>
               <div className="text-center">
-                <p className="text-gray-500 font-semibold">
-                  No Questions added
-                </p>
-                <p className="text-gray-500">
-                  Type your questions below to get fast answers
-                </p>
+                <p className="text-gray-500 font-semibold">No Questions added</p>
+                <p className="text-gray-500">Type your questions below to get fast answers</p>
               </div>
             </div>
           ) : (
@@ -93,9 +87,7 @@ const MainContent = () => {
                   <div
                     key={index}
                     className={`p-1 rounded-lg ${
-                      msg.sender === "user"
-                        ? "bg-blue-100 self-end"
-                        : "bg-gray-100"
+                      msg.sender === "user" ? "bg-blue-100 self-end" : "bg-gray-100"
                     }`}
                   >
                     {msg.text}
@@ -112,20 +104,15 @@ const MainContent = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-500 font-medium">Chat Suggestions</span>
               </div>
-              <div className="flex space-x-2 items-center">
-                <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                  Write Js code for it
-                </button>
-                <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                  Explain more
-                </button>
-                <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                  Explain more
-                </button>
-                <button className="text-xs bg-gray-200 rounded px-2 py-1">
-                  Explain more
-                </button>
-                <button onClick={() => setShowButtons(false)} className="p-1 rounded-full border border-gray-400">
+              <div className="flex flex-wrap space-x-2 items-center relative">
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">Write Js code for it</button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1">Explain more</button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1 hidden md:inline">Explain more</button>
+                <button className="text-xs bg-gray-200 rounded px-2 py-1 hidden md:inline">Explain more</button>
+                <button
+                  onClick={() => setShowButtons(false)}
+                  className="p-1 rounded-full border border-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2"
+                >
                   <AiOutlineClose />
                 </button>
               </div>

@@ -5,10 +5,21 @@ import { getAIResponse } from "../services/openai";
 import { FiSend } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 
+// Mock user chat history data
+const userChatHistory = [
+  { question: "How to design SaaS web application UI...", time: "2 mins ago", questionsAsked: 24 },
+  { question: "Designing SaaS UI as a developer", time: "2 mins ago", questionsAsked: 24 },
+  { question: "Figma design tips and tricks", time: "2 mins ago", questionsAsked: 24 },
+  { question: "List out SaaS UX testing methods and tools", time: "2 mins ago", questionsAsked: 24 },
+  { question: "Write coding for landing page with HTML", time: "2 mins ago", questionsAsked: 24 },
+  { question: "How to use Superpage UI kit", time: "2 mins ago", questionsAsked: 24 },
+];
+
 const MainContent = () => {
   const [input, setInput] = useState("");
   const [hasSentMessage, setHasSentMessage] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [hasChatHistory, setHasChatHistory] = useState(false);
   const messages = useSelector((state) => state.chat.messages);
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
@@ -48,9 +59,33 @@ const MainContent = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButtons(true);
+
+      // Simulate a check for chat history
+      checkUserChatHistory();
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
+
+  const checkUserChatHistory = () => {
+    // Simulate an API call to check for chat history
+    const userHasHistory = true; // Change this based on real logic
+    setHasChatHistory(userHasHistory);
+  };
+
+  const ChatHistoryItem = ({ item }) => (
+    <div className="flex items-center space-x-4 p-2 border-b border-gray-200">
+      <img
+        src="path/to/user/image.jpg"
+        alt="User"
+        className="w-10 h-10 rounded-full"
+      />
+      <div className="flex flex-col">
+        <span className="text-sm font-medium">{item.question}</span>
+        <span className="text-xs text-gray-500">{item.time}</span>
+      </div>
+      <div className="ml-auto text-xs text-gray-500">{item.questionsAsked} Questions asked</div>
+    </div>
+  );
 
   return (
     <main className="flex flex-col items-center justify-between h-screen p-6">
@@ -65,26 +100,39 @@ const MainContent = () => {
         )}
         <div className="flex flex-col justify-between items-center w-full flex-grow ">
           {!hasSentMessage ? (
-            <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center ">
-              <div className="self-start">
-                <h4 className="font-medium">Search History</h4>
+            hasChatHistory ? (
+              <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
+                <div className="self-start w-full">
+                  <h4 className="font-medium">Search History</h4>
+                </div>
+                <div className="mt-4 w-full h-full overflow-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {userChatHistory.map((item, index) => (
+                    <ChatHistoryItem key={index} item={item} />
+                  ))}
+                </div>
               </div>
-              <div className="flex-grow flex items-center justify-center">
-                <img
-                  src="path/to/your/image.jpg"
-                  alt="Your"
-                  className="max-h-full max-w-full"
-                />
+            ) : (
+              <div className="h-[35vh] w-[90vw] lg:w-[60vw] border p-6 rounded-lg shadow-md mt-2 mb-4 flex flex-col justify-between items-center">
+                <div className="self-start">
+                  <h4 className="font-medium">Search History</h4>
+                </div>
+                <div className="flex-grow flex items-center justify-center">
+                  <img
+                    src="/mnt/data/figm2.png"
+                    alt="Your"
+                    className="max-h-full max-w-full"
+                  />
+                </div>
+                <div className="text-center">
+                  <p className="text-gray-500 font-semibold">
+                    No Questions added
+                  </p>
+                  <p className="text-gray-500">
+                    Type your questions below to get fast answers
+                  </p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-gray-500 font-semibold">
-                  No Questions added
-                </p>
-                <p className="text-gray-500">
-                  Type your questions below to get fast answers
-                </p>
-              </div>
-            </div>
+            )
           ) : (
             <div className="overflow-auto p-4 h-[70vh] w-[90vw] lg:h-[70vh] lg:w-[60vw] rounded-lg shadow-md custom-scrollbar">
               <div className="mt-4 flex flex-col space-y-4 overflow-y-auto max-h-full ">

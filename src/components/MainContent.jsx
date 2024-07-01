@@ -4,6 +4,8 @@ import { addMessage, deleteChatAsync } from "../slices/chatSlice";
 import { getAIResponse } from "../services/openai";
 import { FiSend } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import bubble from "../assets/Computer Icons Online Chat.png";
+import face from "../assets/Man with Glasses Thinking.png";
 
 const MainContent = () => {
   const [input, setInput] = useState("");
@@ -13,6 +15,7 @@ const MainContent = () => {
   const [highlightedChatId, setHighlightedChatId] = useState(null);
   const [showNotice, setShowNotice] = useState(false);
   const [localChatHistory, setLocalChatHistory] = useState([]);
+
   const messages = useSelector((state) => state.chat.messages);
   const chatHistory = useSelector((state) => state.auth.chatHistory);
   const dispatch = useDispatch();
@@ -112,15 +115,15 @@ const MainContent = () => {
 
   const ChatHistoryItem = ({ item }) => (
     <div
-      className={`flex items-center space-x-4 p-2 border-b border-gray-200 ${
-        highlightedChatId === item.id ? "bg-purple-200" : ""
+      className={`flex items-center space-x-4 p-2 border-b border-white ${
+        highlightedChatId === item.id ? "bg-purple-100 rounded-md" : ""
       }`}
       onClick={() => handleHighlight(item.id)}
     >
       <img
-        src="path/to/user/image.jpg"
+        src={face}
         alt="User"
-        className="w-10 h-10 rounded-full"
+        className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-400"
       />
       <div className="flex flex-col flex-grow">
         <span className="text-sm font-medium text-black">
@@ -128,7 +131,9 @@ const MainContent = () => {
         </span>
         <div className="flex justify-between">
           <span className="text-xs text-gray-400">24 Questions asked</span>
-          <span className="text-xs text-gray-400">{formatTime(item.created_at)}</span>
+          <span className="text-xs text-gray-400">
+            {formatTime(item.created_at)}
+          </span>
         </div>
       </div>
     </div>
@@ -171,9 +176,9 @@ const MainContent = () => {
                 </div>
                 <div className="flex-grow flex items-center justify-center">
                   <img
-                    src="/mnt/data/figm2.png"
+                    src={bubble}
                     alt="Your"
-                    className="max-h-full max-w-full"
+                    className="w-20 h-20 md:w-24 md:h-24 max-h-full max-w-full"
                   />
                 </div>
                 <div className="text-center">

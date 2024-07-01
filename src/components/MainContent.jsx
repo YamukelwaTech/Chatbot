@@ -12,10 +12,15 @@ const MainContent = () => {
   const [hasChatHistory, setHasChatHistory] = useState(false);
   const [highlightedChatId, setHighlightedChatId] = useState(null);
   const [showNotice, setShowNotice] = useState(false);
+  const [localChatHistory, setLocalChatHistory] = useState([]);
   const messages = useSelector((state) => state.chat.messages);
   const chatHistory = useSelector((state) => state.auth.chatHistory);
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    setLocalChatHistory(chatHistory);
+  }, [chatHistory]);
 
   const handleSend = async () => {
     if (input.trim() === "") return;
@@ -71,9 +76,13 @@ const MainContent = () => {
   }, []);
 
   const clearChatHistory = () => {
-    if (chatHistory.length > 0) {
-      const chatId = highlightedChatId || chatHistory[0].id;
-      dispatch(deleteChatAsync(chatId));
+    if (localChatHistory.length > 0) {
+      const chatId = highlightedChatId || localChatHistory[0].id;
+      dispatch(deleteChatAsync(chatId)).then(() => {
+        setLocalChatHistory((prevHistory) =>
+          prevHistory.filter((chat) => chat.id !== chatId)
+        );
+      });
     }
   };
 
@@ -150,7 +159,7 @@ const MainContent = () => {
                   </button>
                 </div>
                 <div className="mt-4 w-full h-full overflow-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {chatHistory.map((item, index) => (
+                  {localChatHistory.map((item, index) => (
                     <ChatHistoryItem key={index} item={item} />
                   ))}
                 </div>

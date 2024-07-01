@@ -1,22 +1,8 @@
-import React, { useEffect, useState } from "react";
+import userImage from "../assets/Man with Glasses Thinking.png";
 import { useSelector } from "react-redux";
-
-const dummyImages = [
-  "https://via.placeholder.com/40?text=User1",
-  "https://via.placeholder.com/40?text=User2",
-  "https://via.placeholder.com/40?text=User3",
-  "https://via.placeholder.com/40?text=User4",
-];
 
 const Header = () => {
   const user = useSelector((state) => state.auth.username);
-
-  const [userImage, setUserImage] = useState("");
-  useEffect(() => {
-    const randomImage =
-      dummyImages[Math.floor(Math.random() * dummyImages.length)];
-    setUserImage(randomImage);
-  }, []);
 
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center">
@@ -29,7 +15,7 @@ const Header = () => {
             <img
               src={userImage}
               alt="User"
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full bg-slate-400"
             />
           </>
         ) : (

@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const initialState = {
   user: null,
@@ -13,18 +13,18 @@ const initialState = {
 };
 
 const setTokenInLocalStorage = (token) => {
-  localStorage.setItem('token', token);
+  localStorage.setItem("token", token);
 };
 
 const clearTokenFromLocalStorage = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem("token");
 };
 
 export const signup = createAsyncThunk(
-  'auth/signup',
+  "auth/signup",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/signup', formData);
+      const response = await axios.post("/api/signup", formData);
       setTokenInLocalStorage(response.data.token);
       return response.data;
     } catch (error) {
@@ -34,10 +34,10 @@ export const signup = createAsyncThunk(
 );
 
 export const loginAsync = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/login', formData);
+      const response = await axios.post("/api/login", formData);
       setTokenInLocalStorage(response.data.token);
       return response.data;
     } catch (error) {
@@ -47,14 +47,14 @@ export const loginAsync = createAsyncThunk(
 );
 
 export const fetchUser = createAsyncThunk(
-  'auth/fetchUser',
+  "auth/fetchUser",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        throw new Error('No token found');
+        throw new Error("No token found");
       }
-      const response = await axios.get('/api/user', {
+      const response = await axios.get("/api/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,7 +67,7 @@ export const fetchUser = createAsyncThunk(
 );
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     logout: (state) => {
@@ -75,7 +75,7 @@ const authSlice = createSlice({
       state.username = null;
       state.chatHistory = [];
       state.isAuthenticated = false;
-      state.loading = false; 
+      state.loading = false;
       clearTokenFromLocalStorage();
     },
   },
@@ -87,7 +87,7 @@ const authSlice = createSlice({
         state.username = action.payload.username;
         state.chatHistory = [];
         state.error = null;
-        state.loading = false; // Ensure loading is set to false on success
+        state.loading = false;
         setTokenInLocalStorage(action.payload.token);
       })
       .addCase(signup.rejected, (state, action) => {
@@ -96,7 +96,7 @@ const authSlice = createSlice({
         state.username = null;
         state.chatHistory = [];
         state.error = action.payload;
-        state.loading = false; // Ensure loading is set to false on failure
+        state.loading = false;
         clearTokenFromLocalStorage();
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
@@ -105,7 +105,7 @@ const authSlice = createSlice({
         state.username = action.payload.username;
         state.chatHistory = action.payload.chatHistory;
         state.error = null;
-        state.loading = false; // Ensure loading is set to false on success
+        state.loading = false;
         setTokenInLocalStorage(action.payload.token);
       })
       .addCase(loginAsync.rejected, (state, action) => {
@@ -114,11 +114,11 @@ const authSlice = createSlice({
         state.username = null;
         state.chatHistory = [];
         state.error = action.payload;
-        state.loading = false; // Ensure loading is set to false on failure
+        state.loading = false;
         clearTokenFromLocalStorage();
       })
       .addCase(fetchUser.pending, (state) => {
-        state.loading = true; // Set loading to true when fetching user
+        state.loading = true;
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
@@ -126,15 +126,15 @@ const authSlice = createSlice({
         state.username = action.payload.username;
         state.chatHistory = action.payload.chatHistory;
         state.error = null;
-        state.loading = false; // Ensure loading is set to false on success
+        state.loading = false;
       })
-      .addCase(fetchUser.rejected, (state) => {
+      .addCase(fetchUser.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
         state.username = null;
         state.chatHistory = [];
-        state.error = 'Failed to fetch user';
-        state.loading = false; // Ensure loading is set to false on failure
+        state.error = action.payload;
+        state.loading = false;
         clearTokenFromLocalStorage();
       });
   },

@@ -26,6 +26,10 @@ const MainContent = () => {
     setLocalChatHistory(chatHistory);
   }, [chatHistory]);
 
+  const sanitizeResponse = (response) => {
+    return response.replace(/\*\*/g, "").replace(/\*/g, "");
+  };
+
   const handleSend = async () => {
     if (input.trim() === "") return;
 
@@ -35,7 +39,8 @@ const MainContent = () => {
 
     try {
       const aiResponse = await getAIResponse(input);
-      const aiMessage = { text: aiResponse, sender: "ai" };
+      const sanitizedResponse = sanitizeResponse(aiResponse);
+      const aiMessage = { text: sanitizedResponse, sender: "ai" };
       dispatch(addMessage(aiMessage));
     } catch (error) {
       console.error("Error getting AI response:", error);
@@ -232,19 +237,16 @@ const MainContent = () => {
                 <div className="mt-4 flex flex-col space-y-4 overflow-y-auto max-h-full">
                   <h3 className="text-lg font-semibold">Chat</h3>
                   {messages.map((msg, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
                       className={`p-1 rounded-lg ${
                         msg.sender === "user"
-                          ? "bg-blue-100 self-end"
-                          : "bg-gray-100"
+                          ? "bg-purple-100 self-end"
+                          : "bg-white"
                       }`}
                     >
                       {msg.text}
-                    </motion.div>
+                    </div>
                   ))}
                   <div ref={messagesEndRef} />
                 </div>

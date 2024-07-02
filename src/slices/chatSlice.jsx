@@ -10,7 +10,7 @@ export const deleteChatAsync = createAsyncThunk(
   'chat/deleteChat',
   async (chatId, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/chat/${chatId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chat/${chatId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

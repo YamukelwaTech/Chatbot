@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAsync } from "../slices/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -16,13 +18,20 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginAsync(formData)).then((action) => {
       if (loginAsync.fulfilled.match(action)) {
-        navigate("/");
+        toast.success("Login successful!");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000); // 2-second delay before navigating
+      } else if (loginAsync.rejected.match(action)) {
+        const errorMessage =
+          action.payload?.message || "Login failed. Please try again.";
+        toast.error(`Login failed: ${errorMessage}`);
       }
     });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="signup-container flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Log In</h2>
         <form onSubmit={handleSubmit}>
@@ -70,6 +79,7 @@ const Login = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };

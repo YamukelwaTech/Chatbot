@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signup } from "../slices/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -20,14 +22,21 @@ const Signup = () => {
     e.preventDefault();
     dispatch(signup(formData)).then((action) => {
       if (signup.fulfilled.match(action)) {
-        navigate("/");
+        toast.success("Signup successful!");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000); // 2-second delay before navigating
+      } else if (signup.rejected.match(action)) {
+        const errorMessage =
+          action.payload?.message || "Signup failed. Please try again.";
+        toast.error(`Signup failed: ${errorMessage}`);
       }
     });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <div className="signup-container flex flex-col items-center justify-center relative">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md relative z-20 ">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -41,7 +50,7 @@ const Signup = () => {
               value={formData.username}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded mt-1"
-              autoComplete="username "
+              autoComplete="username"
               required
             />
           </div>
@@ -89,6 +98,7 @@ const Signup = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };

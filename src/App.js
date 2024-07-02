@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
-} from "react-router-dom";
-import { useSelector } from "react-redux";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import MainContent from "./components/MainContent";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import MainContent from './components/MainContent';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import { fetchUser } from './slices/authSlice';
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  // const isAuthenticated = true;
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(fetchUser());
+    } else {
+      dispatch({ type: 'auth/fetchUser/rejected' }); 
+    }
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>

@@ -26,6 +26,10 @@ const MainContent = () => {
     setLocalChatHistory(chatHistory);
   }, [chatHistory]);
 
+  const sanitizeResponse = (response) => {
+    return response.replace(/\*\*/g, "").replace(/\*/g, "");
+  };
+
   const handleSend = async () => {
     if (input.trim() === "") return;
 
@@ -35,7 +39,8 @@ const MainContent = () => {
 
     try {
       const aiResponse = await getAIResponse(input);
-      const aiMessage = { text: aiResponse, sender: "ai" };
+      const sanitizedResponse = sanitizeResponse(aiResponse);
+      const aiMessage = { text: sanitizedResponse, sender: "ai" };
       dispatch(addMessage(aiMessage));
     } catch (error) {
       console.error("Error getting AI response:", error);
@@ -236,8 +241,8 @@ const MainContent = () => {
                       key={index}
                       className={`p-1 rounded-lg ${
                         msg.sender === "user"
-                          ? "bg-blue-100 self-end"
-                          : "bg-gray-100"
+                          ? "bg-purple-100 self-end"
+                          : "bg-white"
                       }`}
                     >
                       {msg.text}
